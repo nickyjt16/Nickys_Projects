@@ -55,11 +55,15 @@ def api_listAll():
 @app.route('/api/v1/resources/notes/<noteID>', methods=['PUT', 'DELETE'])
 def api_update(noteID):
     response_object = {'status': 'success'}
+    post_data = request.get_json()
     conn = sqlite3.connect('notes.db')
     cur = conn.cursor()
     #sql = "SELECT
     if request.method == 'PUT':
-        return null
+        updatedNote = post_data.get('note')
+        updatedUser = post_data.get('user')
+        sql = """UPDATE Notes SET Note = ?, User = ? WHERE id = ?"""
+        params = (updatedNote, updatedUser, noteID)
     if request.method == 'DELETE':
         sql = """DELETE FROM Notes WHERE id = ?"""
         params = noteID
