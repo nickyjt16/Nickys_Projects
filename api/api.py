@@ -7,6 +7,7 @@ app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
 # enable CORS
+
 CORS(app, resources={r'/*': {'origins': '*'}})
 
 #helper function for returning all notes
@@ -67,4 +68,5 @@ def api_update(noteID):
     conn.close()
     return jsonify(response_object)  
         
-app.run()
+if __name__ == '__main__':
+    app.run()

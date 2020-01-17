@@ -214,7 +214,7 @@ export default {
       this.getNotes();
     },
     removeNote(noteID) {
-      const path = `http://localhost:5000//api/v1/resources/notes/${noteID}`;
+      const path = `http://localhost:5000/api/v1/resources/notes/${noteID}`;
       axios.delete(path)
         .then(() => {
           this.getNotes();
