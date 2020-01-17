@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-10">
-        <h1>Notes</h1>
+        <h1>Note Keeping System</h1>
         <hr><br><br>
         <alert :message=message v-if="showMessage"></alert>
         <button type="button" class="btn btn-success btn-sm" v-b-modal.note-modal>Add Note</button>
@@ -16,7 +16,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(note, index) in notes" :key="index"> //console log confirms data is received, but data isnt showing in html table
+            <tr v-for="(note, id) in notes" :key="id">
               <td>{{ note.Note }}</td>
               <td>{{ note.User }}</td>
               <td>
@@ -134,11 +134,9 @@ export default {
     getNotes() {
       const path = 'http://localhost:5000/api/v1/resources/notes/';
       axios.get(path)
-		/*.then(function (response) {
-			console.log(response);
-		  })*/
-        .then((response) => {
-          this.notes = response.data.notes;
+        .then((res) => {
+          this.notes = res.data.notes;
+          console.log(res.data);
         })
         .catch((error) => {
           // eslint-disable-next-line
@@ -146,11 +144,12 @@ export default {
         });
     },
     addNote(payload) {
+      console.log(payload);
       const path = 'http://localhost:5000/api/v1/resources/notes/';
       axios.post(path, payload)
         .then(() => {
           this.getNotes();
-          this.message = 'Note added!';
+          this.message = 'The Note has been added to the list!';
           this.showMessage = true;
         })
         .catch((error) => {
@@ -174,6 +173,7 @@ export default {
         user: this.addNoteForm.user,
       };
       this.addNote(payload);
+      console.log(payload);
       this.initForm();
     },
     onReset(evt) {

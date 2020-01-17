@@ -24,38 +24,47 @@ def home():
 #Create
 @app.route('/api/v1/resources/notes/', methods=['POST'])
 def api_create():
+    response_object = {'status': 'success'}
+    post_data = request.get_json()
+    newNote = post_data.get('note')
+    newUser = post_data.get('user')
+    sql = """INSERT INTO Notes (Note, User) VALUES (?,?)"""
     conn = sqlite3.connect('notes.db')
-    c = conn.cursor()
-    newNote = request.args.get('newNote')
-    user = request.args.get('user')
-    params = (newNote, user)
-    conn.execute('INSERT INTO Notes (Note, User) VALUES (?, ?)', params)
+    cur = conn.cursor()
+    params = (newNote, newUser)
+    cur.execute(sql, params)
     conn.commit()
     conn.close()
-    return "Your new note has been logged in the system"
+    return jsonify(response_object)
 
 #Read (or list as specified in the brief)
 @app.route('/api/v1/resources/notes/all', methods=['GET'])
 @app.route('/api/v1/resources/notes/', methods=['GET'])
 def api_listAll():
+    response_object = {'status': 'success'}
     conn = sqlite3.connect('notes.db')
     conn.row_factory = dict_factory
     cur = conn.cursor()
     allNotes = cur.execute('SELECT * FROM Notes;').fetchall()
-
-    return jsonify(allNotes)    
+    response_object['notes'] = allNotes
+    conn.close()
+    return jsonify(response_object)    
 
 #Update or Delete
-@app.route('/api/v1/resources/notes/update', methods=['PUT', 'DELETE'])
-def api_update():
+@app.route('/api/v1/resources/notes/<noteID>', methods=['PUT', 'DELETE'])
+def api_update(noteID):
+    response_object = {'status': 'success'}
     conn = sqlite3.connect('notes.db')
-    c = conn.cursor()
+    cur = conn.cursor()
     #sql = "SELECT
     if request.method == 'PUT':
-        id = request.args.get('ID')
         return null
     if request.method == 'DELETE':
-        #TODO
-        return null
+        sql = """DELETE FROM Notes WHERE id = ?"""
+        params = noteID
+    cur.execute(sql, params)
+    conn.commit()
+    conn.close()
+    return jsonify(response_object)  
         
 app.run()
