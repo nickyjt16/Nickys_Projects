@@ -187,13 +187,15 @@ export default {
       evt.preventDefault();
       this.$refs.editNoteModal.hide();
       const payload = {
-        note: this.editForm.note,
-        user: this.editForm.user,
+        note: this.editForm.Note,
+        user: this.editForm.User,
       };
+      console.log(payload);
       this.updateNote(payload, this.editForm.id);
     },
     updateNote(payload, noteID) {
       const path = `http://localhost:5000/api/v1/resources/notes/${noteID}`;
+      console.log(payload);
       axios.put(path, payload)
         .then(() => {
           this.getNotes();

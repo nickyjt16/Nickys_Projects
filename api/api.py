@@ -58,11 +58,10 @@ def api_update(noteID):
     post_data = request.get_json()
     conn = sqlite3.connect('notes.db')
     cur = conn.cursor()
-    #sql = "SELECT
     if request.method == 'PUT':
         updatedNote = post_data.get('note')
         updatedUser = post_data.get('user')
-        sql = """UPDATE Notes SET Note = ?, User = ? WHERE id = ?"""
+        sql = """UPDATE Notes SET Note = IFNULL(?, Note), User = IFNULL(?, User) WHERE id = ?"""
         params = (updatedNote, updatedUser, noteID)
     if request.method == 'DELETE':
         sql = """DELETE FROM Notes WHERE id = ?"""
