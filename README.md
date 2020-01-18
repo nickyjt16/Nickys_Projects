@@ -1,4 +1,4 @@
-# Nickys_Project
+## Note taking app
  
 To run this project, please do the following:
 
