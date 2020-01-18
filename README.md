@@ -1,5 +1,7 @@
-# Nickys_Project
+## Note taking app
  
+This app has been developed using Flask for the backend to create an API, and Vue for the Frontend for the UI. 
+
 To run this project, please do the following:
 
 1. run /api/api.py in a command prompy using ```python api.pi``` after navigating to the directory.
