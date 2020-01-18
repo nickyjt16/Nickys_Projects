@@ -5,7 +5,8 @@
         <h1>Note Keeping System</h1>
         <hr><br><br>
         <alert :message=message v-if="showMessage"></alert>
-        <button type="button" class="btn btn-success btn-sm" v-b-modal.note-modal>Add Note</button>
+        <button type="button" class="btn btn-success btn-block" v-b-modal.note-modal>Add New Note
+</button>
         <br><br>
         <table class="table table-hover">
           <thead>
@@ -74,7 +75,7 @@
     </b-modal>
     <b-modal ref="editNoteModal"
             id="note-update-modal"
-            note="Update"
+            title="Update"
             hide-footer>
       <b-form @submit="onSubmitUpdate" @reset="onResetUpdate" class="w-100">
       <b-form-group id="form-note-edit-group"
@@ -82,7 +83,7 @@
                     label-for="form-note-edit-input">
           <b-form-input id="form-note-edit-input"
                         type="text"
-                        v-model="editForm.note"
+                        v-model="editForm.Note"
                         required
                         placeholder="Enter note">
           </b-form-input>
@@ -92,7 +93,7 @@
                       label-for="form-user-edit-input">
             <b-form-input id="form-user-edit-input"
                           type="text"
-                          v-model="editForm.user"
+                          v-model="editForm.User"
                           required
                           placeholder="Enter user">
             </b-form-input>
@@ -136,7 +137,6 @@ export default {
       axios.get(path)
         .then((res) => {
           this.notes = res.data.notes;
-          console.log(res.data);
         })
         .catch((error) => {
           // eslint-disable-next-line
@@ -144,7 +144,6 @@ export default {
         });
     },
     addNote(payload) {
-      console.log(payload);
       const path = 'http://localhost:5000/api/v1/resources/notes/';
       axios.post(path, payload)
         .then(() => {
@@ -173,7 +172,6 @@ export default {
         user: this.addNoteForm.user,
       };
       this.addNote(payload);
-      console.log(payload);
       this.initForm();
     },
     onReset(evt) {
@@ -182,6 +180,7 @@ export default {
       this.initForm();
     },
     editNote(note) {
+      console.log(note);
       this.editForm = note;
     },
     onSubmitUpdate(evt) {
