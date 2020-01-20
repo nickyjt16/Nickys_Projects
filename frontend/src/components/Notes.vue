@@ -5,7 +5,7 @@
         <h1>Note Keeping System</h1>
         <hr><br><br>
         <alert :message=message v-if="showMessage"></alert>
-        <button type="button" class="btn btn-success btn-block" v-b-modal.note-modal>Add New Note
+        <button type="button" class="btn btn-outline-success btn-block" v-b-modal.note-modal>Add New Note
 </button>
         <br><br>
         <table class="table table-hover">
@@ -24,14 +24,14 @@
                 <div class="btn-group" role="group">
                   <button
                           type="button"
-                          class="btn btn-warning btn-sm"
+                          class="btn btn-outline-primary btn-sm"
                           v-b-modal.note-update-modal
                           @click="editNote(note)">
                       Update
                   </button>
                   <button
                           type="button"
-                          class="btn btn-danger btn-sm"
+                          class="btn btn-outline-danger btn-sm"
                           @click="onDeleteNote(note)">
                       Delete
                   </button>
@@ -104,6 +104,9 @@
         </b-button-group>
       </b-form>
     </b-modal>
+	<footer>
+	<div id="footer">Created by Nicky Temperley</div>
+	</footer>
   </div>
 </template>
 
@@ -180,7 +183,6 @@ export default {
       this.initForm();
     },
     editNote(note) {
-      console.log(note);
       this.editForm = note;
     },
     onSubmitUpdate(evt) {
@@ -190,12 +192,10 @@ export default {
         note: this.editForm.Note,
         user: this.editForm.User,
       };
-      console.log(payload);
       this.updateNote(payload, this.editForm.id);
     },
     updateNote(payload, noteID) {
       const path = `http://localhost:5000/api/v1/resources/notes/${noteID}`;
-      console.log(payload);
       axios.put(path, payload)
         .then(() => {
           this.getNotes();
@@ -219,7 +219,7 @@ export default {
       axios.delete(path)
         .then(() => {
           this.getNotes();
-          this.message = 'Note removed!';
+          this.message = 'Note deleted!';
           this.showMessage = true;
         })
         .catch((error) => {
